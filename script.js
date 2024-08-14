@@ -5,6 +5,12 @@ const Cell = function (){
     return {getValue, setValue};
 };
 
+const Player = function (name, mark){
+    const getName = () => name;
+    const getMark = () => mark;
+    return {getName, getMark};
+};
+
 const gameBoard = (function GameBoard(){
     const rows = 3;
     const columns = 3;
