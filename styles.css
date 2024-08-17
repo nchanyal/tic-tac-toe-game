@@ -30,5 +30,13 @@ body {
 }
 
 .cell {
+    display: flex;
     background-color: white;
+}
+
+.cell > button {
+    background-color: inherit;
+    border: 0px solid white;
+    padding: 0;
+    flex: 1;
 }

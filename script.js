@@ -50,6 +50,8 @@ function GameController(gameBoard){
 
     let activePlayer = players[0];
 
+    const getActivePlayer = () => activePlayer;
+
     const switchActivePlayer = () => activePlayer = activePlayer === players[0] ? 
     players[1] : players[0];
 
@@ -161,5 +163,38 @@ function GameController(gameBoard){
         displayTieMessage();
     };
 
-    return {playFullGame};
+    return {getActivePlayer};
 };
+
+function ScreenController(gameController, gameBoard) {
+    const turnDiv = document.querySelector(".turn");
+    const boardDiv = document.querySelector(".board");
+
+    const displayActivePlayer = () => {
+        turnDiv.textContent = `${gameController.getActivePlayer().getName()}'s turn...`;
+    };
+
+    const displayGameboard = () => {
+        const board = gameBoard.getBoard();
+        const arrayOfButtons = Array.from(document.querySelectorAll(".cell > button"));
+        let index = 0;
+
+        for(let i = 0; i < gameBoard.getRows(); i++){
+            for(let k = 0; k < gameBoard.getColumns(); k++){
+                if(board[i][k].getValue() === "E"){
+                    ++index;
+                    continue;
+                }
+                arrayOfButtons[index].textContent = board[i][k].getValue();
+                ++index;
+            }
+        }
+    };
+
+    const updateScreen = () => {
+        displayActivePlayer();
+        displayGameboard();
+    };
+
+    updateScreen();
+}
