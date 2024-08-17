@@ -163,5 +163,3 @@ function GameController(gameBoard){
 
     return {playFullGame};
 };
-
-GameController(GameBoard()).playFullGame();

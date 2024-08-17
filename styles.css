@@ -1,0 +1,34 @@
+:root {
+    --board-size: 450px;
+}
+
+body {
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.board {
+    display: grid;
+    width: var(--board-size);
+    height: var(--board-size);
+    grid-template-columns: repeat(3, minmax(50px, 1fr));
+    grid-template-rows: repeat(3, minmax(50px, 1fr));
+    gap: 10px;
+    background-color: black;
+}
+
+.turn {
+    height: 50px;
+}
+
+.cell {
+    background-color: white;
+}
