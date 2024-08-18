@@ -25,7 +25,8 @@ body {
     background-color: black;
 }
 
-.turn {
+.turn,
+.result {
     height: 50px;
 }
 

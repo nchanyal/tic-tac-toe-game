@@ -60,11 +60,11 @@ function GameController(gameBoard){
         console.log("*note that 'E' denotes an empty cell to place your mark");
     };
 
-    const displayCongratsMessage = () => {
-        console.log(`Congratulations to ${activePlayer.getName()} for winning!`);
+    const getCongratsMessage = () => {
+        return `Congratulations to ${activePlayer.getName()} for winning!`;
     };
 
-    const displayTieMessage = () => console.log("Nobody won... there was a tie!");
+    const getTieMessage = () => "Nobody won... there was a tie!";
 
     const checkThreeInARow = (mark) => {
         let numberOfMarksInSuccession = 0;
@@ -138,37 +138,20 @@ function GameController(gameBoard){
         return prompt(`${activePlayer.getName()}, which ${dimensionOfBoard} will you place your mark?`, "1");
     };
 
-    const playTurn = () => {
-        gameBoard.displayBoard();
-        let userRow = getMarkLocationFor("row");
-        let userColumn = getMarkLocationFor("column");
+    const playTurn = (userRow, userColumn) => {
+        if(checkIfActivePlayerWon(activePlayer) || checkForATie(activePlayer)) return;
+        if(gameBoard.getBoard()[userRow-1][userColumn-1].getValue() !== "E") return;
         gameBoard.placeMark(userRow, userColumn, activePlayer.getMark());
+        if(checkIfActivePlayerWon(activePlayer) || checkForATie(activePlayer)) return;
+        switchActivePlayer();
     };
 
-    const playFullGame = () => {
-        welcomePlayers();
-        playTurn();
-        console.log("");
-        while(!checkIfActivePlayerWon(activePlayer) && !checkForATie(activePlayer)){
-            switchActivePlayer();
-            playTurn();
-            console.log("");
-        }
-        if(checkIfActivePlayerWon(activePlayer)){
-            gameBoard.displayBoard();
-            displayCongratsMessage();
-            return;
-        }
-        gameBoard.displayBoard();
-        displayTieMessage();
-    };
-
-    return {getActivePlayer};
+    return {getActivePlayer, getCongratsMessage, getTieMessage, checkIfActivePlayerWon, checkForATie, playTurn};
 };
 
 function ScreenController(gameController, gameBoard) {
     const turnDiv = document.querySelector(".turn");
-    const boardDiv = document.querySelector(".board");
+    const resultDiv = document.querySelector(".result");
 
     const displayActivePlayer = () => {
         turnDiv.textContent = `${gameController.getActivePlayer().getName()}'s turn...`;
@@ -191,10 +174,24 @@ function ScreenController(gameController, gameBoard) {
         }
     };
 
+    const displayResultsOfGame = () => {
+        if(gameController.checkIfActivePlayerWon(gameController.getActivePlayer())){
+            resultDiv.textContent = gameController.getCongratsMessage();
+        }else if(gameController.checkForATie(gameController.getActivePlayer())){
+            resultDiv.textContent = gameController.getTieMessage();
+        }
+    };
+
     const updateScreen = () => {
         displayActivePlayer();
         displayGameboard();
+        displayResultsOfGame();
     };
 
     updateScreen();
+    gameController.playTurn(1, 1);
 }
+
+const GB = GameBoard();
+GB.placeMark(1, 1, "X");
+ScreenController(GameController(GB), GB);
