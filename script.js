@@ -153,6 +153,13 @@ function ScreenController(gameController, gameBoard) {
     const turnDiv = document.querySelector(".turn");
     const resultDiv = document.querySelector(".result");
 
+    const addEventListenerToButton = (button) => {
+        button.addEventListener("click", (e) => {
+            gameController.playTurn(e.target.dataset.row, e.target.dataset.column);
+            updateScreen();
+        })
+    };
+
     const displayActivePlayer = () => {
         turnDiv.textContent = `${gameController.getActivePlayer().getName()}'s turn...`;
     };
@@ -164,6 +171,9 @@ function ScreenController(gameController, gameBoard) {
 
         for(let i = 0; i < gameBoard.getRows(); i++){
             for(let k = 0; k < gameBoard.getColumns(); k++){
+                arrayOfButtons[index].dataset.row = i+1;
+                arrayOfButtons[index].dataset.column = k+1;
+                addEventListenerToButton(arrayOfButtons[index]);
                 if(board[i][k].getValue() === "E"){
                     ++index;
                     continue;
@@ -189,9 +199,7 @@ function ScreenController(gameController, gameBoard) {
     };
 
     updateScreen();
-    gameController.playTurn(1, 1);
 }
 
 const GB = GameBoard();
-GB.placeMark(1, 1, "X");
 ScreenController(GameController(GB), GB);
