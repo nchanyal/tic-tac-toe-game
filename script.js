@@ -186,8 +186,10 @@ function ScreenController(gameController, gameBoard) {
 
     const displayResultsOfGame = () => {
         if(gameController.checkIfActivePlayerWon(gameController.getActivePlayer())){
+            turnDiv.textContent = "";
             resultDiv.textContent = gameController.getCongratsMessage();
         }else if(gameController.checkForATie(gameController.getActivePlayer())){
+            turnDiv.textContent = "";
             resultDiv.textContent = gameController.getTieMessage();
         }
     };
