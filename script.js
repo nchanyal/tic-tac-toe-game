@@ -46,7 +46,7 @@ function GameBoard(){
 };
 
 function GameController(gameBoard){
-    const players = [Player("player1", "X"), Player("player2", "O")];
+    const players = [Player("player-1", "X"), Player("player-2", "O")];
 
     let activePlayer = players[0];
 
